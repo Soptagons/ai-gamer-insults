@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Insults Generator</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('generate-button').style.display = 'none';
+        }
+    </script>
+</head>
+<body class="bg-gray-900 text-gray-100 h-screen flex flex-col justify-center items-center">
+    <div class="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4 text-center">Gamer Insults Generator</h1>
+        <form action="/generate_insults" method="post" class="space-y-4" onsubmit="showLoading()">
+            <div class="flex flex-col">
+                <label for="game_name" class="text-sm font-semibold text-gray-400">Enter the game name:</label>
+                <input type="text" name="game_name" id="game_name" class="p-2 border rounded bg-gray-700 text-gray-300" required>
+            </div>
+            <div class="flex justify-center">
+                <button type="submit" id="generate-button" class="bg-violet-500 text-white p-2 rounded hover:bg-violet-600">Generate Insults</button>
+                <div id="loading" class="loader" style="display:none;"></div>
+            </div>
+			<div class="absolute top-4 right-4">
+				<label for="api_key" class="text-sm font-semibold text-gray-400">Enter your OpenAI API Key:</label>
+				<input type="password" name="api_key" id="api_key" class="p-2 border rounded bg-gray-700 text-gray-300" required autocomplete="off">
+			</div>
+        </form>
+        {% if insults %}
+            <h2 class="text-xl mt-6 mb-2 text-center">Generated Insults:</h2>
+            <div class="text-gray-400">
+                {% for insult in insults %}
+                    <p>{{ insult }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <style>
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 24px;
+            height: 24px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</body>
+</html>
